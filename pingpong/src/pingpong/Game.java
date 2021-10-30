@@ -8,36 +8,53 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  * @author María Malvesada
  */
-public class Game {
+public class Game{
 
 
 
+    public static final int NUM_PLAYERS = 6;
     public static void main(String[] args) {
-
+       
         Lock lock = new ReentrantLock();
 
 
 
-        Player player1 = new Player("ping", lock);
-        Player player2 = new Player("pong", lock);
+        int length = NUM_PLAYERS;
+
+        Player[] players = new Player[length];
+
+
+        for (int i=0; i < length; i++) {
+
+            Player player = new Player("player"+i, lock);
+            players[i] = player;
+
+        }
 
 
 
-        player1.setNextPlayer(player2);
-        player2.setNextPlayer(player1);
+        for (int i=0; i < length - 1; i++) {
+            players[i].setNextPlayer(players[i+1]);
 
+        }
 
+        players[length - 1].setNextPlayer(players[0]);
 
         System.out.println("Game starting...!");
 
-        player1.setPlay(true);
+
+        players[0].setPlay(true);
 
 
+        //Threads creation
 
-        Thread thread2 = new Thread(player2);
-        thread2.start();
-        Thread thread1 = new Thread(player1);
-        thread1.start();
+        Thread[] threads = new Thread[length];
+        for (int i=0; i < length; i++) {
+            Thread thread = new Thread(players[i]);
+            threads[i] = thread;
+            thread.start();
+
+        }
 
 
 
@@ -45,7 +62,7 @@ public class Game {
 
         try {
 
-            Thread.sleep(10);
+            Thread.sleep(2);
 
         } catch (InterruptedException e) {
 
@@ -57,26 +74,36 @@ public class Game {
 
         //Tell the players to stop
 
-        thread1.interrupt();
-        thread2.interrupt();
+        for (Thread thread : threads) {
+
+            thread.interrupt();
+
+        }
 
 
 
-        //Wait until players finish
+        //Don't progress main thread until all players have finished
 
         try {
 
-            thread1.join();
-            thread2.join();
+            for (Thread thread : threads) {
 
-        } catch (InterruptedException e) {
+                thread.join();
+
+            }
+
+        }  catch (InterruptedException e) {
 
             e.printStackTrace();
 
         }
 
+
+
         System.out.println("Game finished!");
 
     }
+
+
 
 }
