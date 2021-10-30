@@ -13,8 +13,7 @@ public class Player implements Runnable {
     private final String text;
     private int turns = Game.MAX_TURNS;
     private Player nextPlayer;
-    private boolean mustPlay = false;
-
+    private volatile boolean mustPlay = false;//con esto ya no se bloquea
     public Player(String text) {
 
         this.text = text;
