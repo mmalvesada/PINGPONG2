@@ -1,6 +1,9 @@
 
 package pingpong;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  *
  * @author María Malvesada
@@ -11,9 +14,9 @@ public class Game {
 
     public static void main(String[] args) {
 
+        Lock lock = new ReentrantLock();
 
 
-        Object lock = new Object();
 
         Player player1 = new Player("ping", lock);
         Player player2 = new Player("pong", lock);
@@ -24,10 +27,13 @@ public class Game {
         player2.setNextPlayer(player1);
 
 
+
         System.out.println("Game starting...!");
 
-
         player1.setPlay(true);
+
+
+
         Thread thread2 = new Thread(player2);
         thread2.start();
         Thread thread1 = new Thread(player1);
@@ -39,8 +45,10 @@ public class Game {
 
         try {
 
-            Thread.sleep(2);
+            Thread.sleep(10);
+
         } catch (InterruptedException e) {
+
             e.printStackTrace();
 
         }
@@ -50,7 +58,7 @@ public class Game {
         //Tell the players to stop
 
         thread1.interrupt();
-       thread2.interrupt();
+        thread2.interrupt();
 
 
 
@@ -67,12 +75,8 @@ public class Game {
 
         }
 
-
-
         System.out.println("Game finished!");
 
     }
-
-
 
 }
