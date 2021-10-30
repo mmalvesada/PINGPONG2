@@ -27,16 +27,37 @@ public class Player implements Runnable {
 
     public void run() {
 
-        while(!Thread.interrupted()) {
+    while(!Thread.interrupted()) {
 
-            while (!mustPlay);
-            System.out.println(text);
-            this.mustPlay = false;
-            nextPlayer.mustPlay = true;
+        while (!mustPlay);
+
+
+
+        try {
+
+            Thread.sleep(1);
+
+        } catch (InterruptedException e) {
+
+            Thread.currentThread().interrupt();
+
         }
+
+
+
+        System.out.println(text);
+
+
+
+        this.mustPlay = false;
+
+        nextPlayer.mustPlay = true;
+
+
 
     }
 
+}
 
 
     public void setNextPlayer(Player nextPlayer) {

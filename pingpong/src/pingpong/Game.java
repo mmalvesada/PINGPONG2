@@ -12,10 +12,6 @@ public class Game {
 
 
 
-    public static final int MAX_TURNS = 10;
-
-
-
     public static void main(String[] args) {
 
 
@@ -50,6 +46,30 @@ public class Game {
 
 
 
+        //Let the players play!
+
+        try {
+
+            Thread.sleep(2);
+
+        } catch (InterruptedException e) {
+
+            e.printStackTrace();
+
+        }
+
+
+
+        //Tell the players to stop
+
+        thread1.interrupt();
+
+        thread2.interrupt();
+
+
+
+        //Wait until players finish
+
         try {
 
             thread1.join();
@@ -61,11 +81,8 @@ public class Game {
             e.printStackTrace();
 
         }
-// tenemos mas control sobre los hilos, pero no total, porque se va a 
-//quedar pillado y no va  a terminar
 
-//el must play es visible porque lo hace el propio hilo, 
-//y esto es malo porque depende del hilo,
+
 
         System.out.println("Game finished!");
 
