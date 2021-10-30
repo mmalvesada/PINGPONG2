@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package pingpong;
 
 /**
@@ -16,32 +13,24 @@ public class Game {
 
 
 
-        Player player1 = new Player("ping");
+        Object lock = new Object();
 
-        Player player2 = new Player("pong");
+        Player player1 = new Player("ping", lock);
+        Player player2 = new Player("pong", lock);
 
 
 
         player1.setNextPlayer(player2);
-
         player2.setNextPlayer(player1);
-
 
 
         System.out.println("Game starting...!");
 
 
-
-        player1.setMustPlay(true);
-
-
-
+        player1.setPlay(true);
         Thread thread2 = new Thread(player2);
-
         thread2.start();
-
         Thread thread1 = new Thread(player1);
-
         thread1.start();
 
 
@@ -51,9 +40,7 @@ public class Game {
         try {
 
             Thread.sleep(2);
-
         } catch (InterruptedException e) {
-
             e.printStackTrace();
 
         }
@@ -63,8 +50,7 @@ public class Game {
         //Tell the players to stop
 
         thread1.interrupt();
-
-        thread2.interrupt();
+       thread2.interrupt();
 
 
 
@@ -73,7 +59,6 @@ public class Game {
         try {
 
             thread1.join();
-
             thread2.join();
 
         } catch (InterruptedException e) {
