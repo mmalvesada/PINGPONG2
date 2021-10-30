@@ -10,10 +10,11 @@ package pingpong;
  */
 public class Player implements Runnable {
 
+
     private final String text;
-    private int turns = Game.MAX_TURNS;
     private Player nextPlayer;
-    private volatile boolean mustPlay = false;//con esto ya no se bloquea
+    private volatile boolean mustPlay = false;
+
     public Player(String text) {
 
         this.text = text;
@@ -21,26 +22,18 @@ public class Player implements Runnable {
     }
 
 
-    @Override //sobre escribimos el método n veces en nuestro proceso
+
+    @Override
 
     public void run() {
 
-        while(!gameFinished()) {
-            while (!mustPlay);// mientras el juego no acabe, seguimos jugando
+        while(!Thread.interrupted()) {
+
+            while (!mustPlay);
             System.out.println(text);
-            turns--;//restamos un numero de turnos
             this.mustPlay = false;
             nextPlayer.mustPlay = true;
         }
-
-    }
-//antes el jugador pasa el metodo mediante mensaje, 
-   //ahora vamos a jugar con el metdo mustplay, el propio judaor es el reponsable de su turno,
-    //por tanto de cada hilo
-
-    private boolean gameFinished() {
-
-        return turns == 0; //para finalizar partido
 
     }
 
@@ -48,7 +41,7 @@ public class Player implements Runnable {
 
     public void setNextPlayer(Player nextPlayer) {
 
-        this.nextPlayer = nextPlayer;//mlamada al siguiente jugador
+        this.nextPlayer = nextPlayer;
 
     }
 
