@@ -1,6 +1,7 @@
 
 package pingpong;
 
+import java.util.Scanner;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -10,14 +11,20 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class Game{
 
+ Scanner teclado = new Scanner(System.in);
 
+    
 
-    public static final int NUM_PLAYERS = 6;
+   // public static final int NUM_PLAYERS = 6;
     public static void main(String[] args) {
        
         Lock lock = new ReentrantLock();
 
+        int NUM_PLAYERS;
 
+        System.out.print("¿Cúal es el número de jugadores?: " );
+        
+        NUM_PLAYERS= teclado.nextInt();
 
         int length = NUM_PLAYERS;
 
@@ -34,6 +41,7 @@ public class Game{
 
 
         for (int i=0; i < length - 1; i++) {
+           
             players[i].setNextPlayer(players[i+1]);
 
         }
